@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name  = "First Teleop", group = "1")
+@TeleOp(name  = "teleop1", group = "1")
 public class teleop extends LinearOpMode {
     DcMotor r1;
     DcMotor r2;
@@ -21,8 +21,15 @@ public class teleop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
 
+        r1 = hardwareMap.get(DcMotor.class,"r1");
+        r2 = hardwareMap.get(DcMotor.class,"r2");
+        l1 = hardwareMap.get(DcMotor.class,"l1");
+        l2 = hardwareMap.get(DcMotor.class,"l2");
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        clawwheel = hardwareMap.get(Servo.class, "clawwheel");
+
+        waitForStart();
         while(!isStopRequested()) {
             //drive code forward and back
             r1.setPower(gamepad1.left_stick_y);
