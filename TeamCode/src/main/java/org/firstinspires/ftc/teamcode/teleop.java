@@ -32,6 +32,9 @@ public class teleop extends LinearOpMode {
         waitForStart();
         while(!isStopRequested()) {
             //drive code forward and back
+            r1.setDirection(DcMotorSimple.Direction.REVERSE);
+            r2.setDirection(DcMotorSimple.Direction.REVERSE);
+
             r1.setPower(gamepad1.left_stick_y);
             r2.setPower(gamepad1.left_stick_y);
             l1.setPower(gamepad1.left_stick_y);
