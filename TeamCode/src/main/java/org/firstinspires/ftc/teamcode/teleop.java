@@ -12,10 +12,10 @@ public class teleop extends LinearOpMode {
     DcMotor r2;
     DcMotor l1;
     DcMotor l2;
-
+    DcMotor belt;
     DcMotor lift;
 
-    Servo clawwheel;
+    Servo flipper;
 
     double SpeedMultiplier = 0.50;
 
@@ -27,45 +27,92 @@ public class teleop extends LinearOpMode {
         l1 = hardwareMap.get(DcMotor.class,"l1");
         l2 = hardwareMap.get(DcMotor.class,"l2");
         lift = hardwareMap.get(DcMotor.class,"lift");
-        clawwheel = hardwareMap.get(Servo.class, "clawwheel");
+        flipper = hardwareMap.get(Servo.class, "clawwheel");
+        belt = hardwareMap.get(DcMotor.class, "belt");
 
         waitForStart();
         while(!isStopRequested()) {
             //drive code forward and back
             r1.setDirection(DcMotorSimple.Direction.REVERSE);
             r2.setDirection(DcMotorSimple.Direction.REVERSE);
+            if (gamepad1.dpad_down) {
+                r1.setPower(1);
+                r2.setPower(1);
+                l1.setPower(1);
+                l2.setPower(1);
+            } else if (!gamepad1.dpad_down) {
+                r1.setPower(0);
+                r2.setPower(0);
+                l1.setPower(0);
+                l2.setPower(0);
+            }
 
-            r1.setPower(gamepad1.left_stick_y);
-            r2.setPower(gamepad1.left_stick_y);
-            l1.setPower(gamepad1.left_stick_y);
-            l2.setPower(gamepad1.left_stick_y);
             //strafe right
-            r1.setPower(gamepad1.right_trigger);
-            r2.setPower(-gamepad1.right_trigger);
-            l1.setPower(-gamepad1.right_trigger);
-            l2.setPower(gamepad1.right_trigger);
+            if (gamepad1.dpad_up) {
+                r1.setPower(-1);
+                r2.setPower(-1);
+                l1.setPower(-1);
+                l2.setPower(-1);
+                }
+            else if (!gamepad1.dpad_up) {
+                r1.setPower(0);
+                r2.setPower(0);
+                l1.setPower(0);
+                l2.setPower(0);
+            }
             //strafe left
-            r1.setPower(-gamepad1.left_trigger);
-            r2.setPower(gamepad1.left_trigger);
-            l1.setPower(gamepad1.left_trigger);
-            l2.setPower(-gamepad1.left_trigger);
-            //turn
-            r1.setPower(gamepad1.left_stick_x);
-            r2.setPower(gamepad1.left_stick_x);
-            l1.setPower(-gamepad1.left_stick_x);
-            l2.setPower(-gamepad1.left_stick_x);
+            if (gamepad1.dpad_left) {
+                r1.setPower(-1);
+                r2.setPower(-1);
+                l1.setPower(1);
+                l2.setPower(1);
+            } else if (!gamepad1.dpad_left) {
+                r1.setPower(0);
+                r2.setPower(0);
+                l1.setPower(0);
+                l2.setPower(0);
+            }
 
-            lift.setDirection(DcMotorSimple.Direction.REVERSE);
+            if (gamepad1.dpad_right) {
+                r1.setPower(1);
+                r2.setPower(1);
+                l1.setPower(-1);
+                l2.setPower(-1);
+            } else if (!gamepad1.dpad_right) {
+                r1.setPower(0);
+                r2.setPower(0);
+                l1.setPower(0);
+                l2.setPower(0);
+            }
+
+            //Turn Right
+            if (gamepad1.right_trigger > 0.5) {
+                r1.setPower(-1);
+                r2.setPower(-1);
+                l1.setPower(1);
+                l2.setPower(1);
+            }
+
+            //Turn Left
+            if (gamepad1.left_trigger > 0.5) {
+                l1.setPower(-1);
+                l2.setPower(-1);
+                r1.setPower(1);
+                r2.setPower(1);
+            }
+
+            belt.setPower(gamepad2.right_stick_y*SpeedMultiplier);
+
             lift.setPower(gamepad2.left_stick_y*SpeedMultiplier);
 
             //CLAW CODE
 
             if (gamepad2.a) {
-                clawwheel.setPosition(0);
+                flipper.setPosition(0);
                 telemetry.addData("Pressed:a", "a");
             }
             if (gamepad2.b) {
-                clawwheel.setPosition(1);
+                flipper.setPosition(1);
                 telemetry.addData("Pressed:","b");
             }
         }
