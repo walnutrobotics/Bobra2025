@@ -17,7 +17,7 @@ public class teleop extends LinearOpMode {
 
     Servo flipper;
 
-    double SpeedMultiplier = 0.50;
+    double SpeedMultiplier = 0.75;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,8 +38,8 @@ public class teleop extends LinearOpMode {
             if (gamepad1.dpad_down) {
                 r1.setPower(1);
                 r2.setPower(1);
-                l1.setPower(1);
-                l2.setPower(1);
+                l1.setPower(0.75);
+                l2.setPower(0.75);
             } else if (!gamepad1.dpad_down) {
                 r1.setPower(0);
                 r2.setPower(0);
@@ -47,12 +47,12 @@ public class teleop extends LinearOpMode {
                 l2.setPower(0);
             }
 
-            //strafe right
+            //right turn
             if (gamepad1.dpad_up) {
                 r1.setPower(-1);
                 r2.setPower(-1);
-                l1.setPower(-1);
-                l2.setPower(-1);
+                l1.setPower(-0.75);
+                l2.setPower(-0.75);
                 }
             else if (!gamepad1.dpad_up) {
                 r1.setPower(0);
@@ -60,7 +60,7 @@ public class teleop extends LinearOpMode {
                 l1.setPower(0);
                 l2.setPower(0);
             }
-            //strafe left
+            //left turn
             if (gamepad1.dpad_left) {
                 r1.setPower(-1);
                 r2.setPower(-1);
@@ -99,22 +99,27 @@ public class teleop extends LinearOpMode {
                 l2.setPower(-1);
                 r1.setPower(1);
                 r2.setPower(1);
+
             }
 
-            belt.setPower(gamepad2.right_stick_y*SpeedMultiplier);
+            belt.setPower(gamepad2.right_stick_y*0.5);
+            if (belt.getPower() > 0) {
+                telemetry.addData("Pressed:right stick", "y");
+            }
 
-            lift.setPower(gamepad2.left_stick_y*SpeedMultiplier);
+            lift.setPower(gamepad1.right_stick_y*0.5);
 
             //CLAW CODE
 
             if (gamepad2.a) {
                 flipper.setPosition(0);
-                telemetry.addData("Pressed:a", "a");
+                telemetry.addData("Pressed:", "a");
             }
             if (gamepad2.b) {
                 flipper.setPosition(1);
                 telemetry.addData("Pressed:","b");
             }
+            telemetry.update();
         }
     }
 }
