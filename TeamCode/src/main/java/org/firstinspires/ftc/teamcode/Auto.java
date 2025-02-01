@@ -26,15 +26,18 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            moveleft(1,1000);
+        if (opModeIsActive()) {
+            moveleft(0.5,7000);
+
         }
     }
     public void moveleft(double power, long time) {
-        r1.setPower(power);
-        r2.setPower(-power);
-        l1.setPower(-power);
-        l2.setPower(power);
+        r1.setPower(-power);
+        r2.setPower(power);
+        l1.setPower(power+0.15);
+        l2.setPower(-power-0.15);
+
+        sleep(time);
     }
 
 }
