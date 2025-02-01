@@ -27,7 +27,7 @@ public class Auto extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
+            moveleft(1,1000);
         }
     }
     public void moveleft(double power, long time) {
