@@ -14,9 +14,7 @@ public class teleop extends LinearOpMode {
     DcMotor l2;
     DcMotor belt;
     DcMotor lift;
-
     Servo flipper;
-
     double SpeedMultiplier = 0.75;
 
     @Override
@@ -102,7 +100,7 @@ public class teleop extends LinearOpMode {
 
             }
 
-            belt.setPower(gamepad2.right_stick_y*0.5);
+            belt.setPower(gamepad2.right_stick_y*0.75);
             if (belt.getPower() > 0) {
                 telemetry.addData("Pressed:right stick", "y");
             }
